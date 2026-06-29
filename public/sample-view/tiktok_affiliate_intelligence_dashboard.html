@@ -1,0 +1,525 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  #app { display: flex; height: 100vh; min-height: 600px; font-family: var(--font-sans); background: var(--surface-0); color: var(--text-primary); overflow: hidden; }
+  .sidebar { width: 220px; min-width: 220px; background: var(--surface-1); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; padding: 0; }
+  .sidebar-logo { padding: 20px 18px 16px; border-bottom: 0.5px solid var(--border); }
+  .logo-mark { display: flex; align-items: center; gap: 8px; }
+  .logo-icon { width: 28px; height: 28px; border-radius: 7px; background: var(--fill-accent); display: flex; align-items: center; justify-content: center; color: var(--on-accent); font-size: 14px; }
+  .logo-text { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+  .logo-sub { font-size: 10px; color: var(--text-muted); }
+  .nav { padding: 12px 10px; flex: 1; }
+  .nav-section { font-size: 10px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 8px 4px; }
+  .nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: var(--radius); cursor: pointer; font-size: 13px; color: var(--text-secondary); transition: background 0.12s, color 0.12s; margin-bottom: 2px; }
+  .nav-item:hover { background: var(--surface-2); color: var(--text-primary); }
+  .nav-item.active { background: var(--bg-accent); color: var(--text-accent); font-weight: 500; }
+  .nav-item i { font-size: 15px; }
+  .sidebar-footer { padding: 12px 10px; border-top: 0.5px solid var(--border); }
+  .badge { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 999px; font-size: 11px; font-weight: 500; }
+  .badge-green { background: var(--bg-success); color: var(--text-success); }
+  .badge-amber { background: var(--bg-warning); color: var(--text-warning); }
+  .badge-accent { background: var(--bg-accent); color: var(--text-accent); }
+  .badge-pro { background: var(--bg-pro); color: var(--text-pro); }
+  .badge-red { background: var(--bg-danger); color: var(--text-danger); }
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .topbar { height: 52px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background: var(--surface-1); }
+  .topbar-title { font-size: 14px; font-weight: 500; }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--bg-pro); color: var(--text-pro); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; }
+  .content { flex: 1; overflow-y: auto; padding: 24px; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .metric-card { background: var(--surface-1); border-radius: 12px; padding: 16px; border: 0.5px solid var(--border); }
+  .metric-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .metric-value { font-size: 24px; font-weight: 500; color: var(--text-primary); line-height: 1; }
+  .metric-delta { font-size: 11px; color: var(--text-success); margin-top: 4px; display: flex; align-items: center; gap: 3px; }
+  .metric-delta.down { color: var(--text-danger); }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .section-title { font-size: 14px; font-weight: 500; }
+  .table-wrap { background: var(--surface-1); border-radius: 12px; border: 0.5px solid var(--border); overflow: hidden; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { padding: 10px 14px; text-align: left; font-size: 10.5px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; border-bottom: 0.5px solid var(--border); background: var(--surface-0); }
+  td { padding: 11px 14px; border-bottom: 0.5px solid var(--border); color: var(--text-primary); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface-0); }
+  .clickable { cursor: pointer; }
+  .product-cell { display: flex; align-items: center; gap: 10px; }
+  .product-img { width: 32px; height: 32px; border-radius: 6px; object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .product-name { font-weight: 500; font-size: 13px; }
+  .product-cat { font-size: 11px; color: var(--text-muted); }
+  .score-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .score-bar { height: 5px; border-radius: 3px; background: var(--border); flex: 1; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 3px; background: var(--fill-accent); }
+  .score-fill-high { background: var(--fill-success); }
+  .score-num { font-size: 12px; font-weight: 500; color: var(--text-accent); min-width: 26px; text-align: right; }
+  .trend-up { color: var(--text-success); font-size: 13px; }
+  .trend-down { color: var(--text-danger); font-size: 13px; }
+  .back-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-accent); cursor: pointer; margin-bottom: 18px; border: none; background: none; padding: 0; }
+  .detail-hero { background: var(--surface-1); border-radius: 12px; border: 0.5px solid var(--border); padding: 20px; margin-bottom: 18px; display: flex; gap: 20px; align-items: flex-start; }
+  .hero-icon { width: 60px; height: 60px; border-radius: 10px; font-size: 30px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--surface-0); }
+  .hero-info { flex: 1; }
+  .hero-name { font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+  .hero-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .hero-stat { background: var(--surface-0); border-radius: 8px; padding: 10px 12px; }
+  .hero-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .hero-stat-val { font-size: 16px; font-weight: 500; margin-top: 2px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+  .card { background: var(--surface-1); border-radius: 12px; border: 0.5px solid var(--border); padding: 16px; }
+  .card-title { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
+  .affiliate-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); cursor: pointer; }
+  .affiliate-row:last-child { border-bottom: none; }
+  .affiliate-row:hover { opacity: 0.8; }
+  .aff-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--bg-pro); color: var(--text-pro); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; }
+  .aff-name { font-size: 13px; font-weight: 500; flex: 1; }
+  .aff-sales { font-size: 12px; color: var(--text-accent); }
+  .video-row { display: flex; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
+  .video-row:last-child { border-bottom: none; }
+  .video-thumb { width: 44px; height: 32px; border-radius: 5px; background: var(--surface-0); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .video-title { font-size: 12px; font-weight: 500; flex: 1; }
+  .video-views { font-size: 11px; color: var(--text-muted); }
+  .ai-box { background: var(--bg-pro); border: 0.5px solid var(--border-pro); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .ai-box-title { font-size: 11px; font-weight: 500; color: var(--text-pro); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .ai-box-body { font-size: 13px; color: var(--text-primary); line-height: 1.6; }
+  .ai-point { display: flex; gap: 8px; margin-bottom: 5px; font-size: 13px; }
+  .ai-point:last-child { margin-bottom: 0; }
+  .ai-bullet { color: var(--text-pro); flex-shrink: 0; font-size: 11px; margin-top: 2px; }
+  .confidence-ring { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .confidence-ring svg { transform: rotate(-90deg); }
+  .ring-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+  .ring-pct { font-size: 16px; font-weight: 500; color: var(--text-primary); }
+  .ring-sub { font-size: 9px; color: var(--text-muted); }
+  .improvement-list { background: var(--bg-success); border: 0.5px solid var(--border-success); border-radius: 12px; padding: 14px 16px; }
+  .improvement-title { font-size: 11px; font-weight: 500; color: var(--text-success); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .improvement-item { display: flex; gap: 8px; font-size: 13px; color: var(--text-primary); margin-bottom: 5px; line-height: 1.5; }
+  .improvement-item:last-child { margin-bottom: 0; }
+  .imp-num { font-size: 11px; font-weight: 500; color: var(--text-success); min-width: 16px; }
+  .data-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--border); font-size: 12.5px; }
+  .data-row:last-child { border-bottom: none; }
+  .data-label { color: var(--text-muted); }
+  .data-val { font-weight: 500; color: var(--text-primary); }
+  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 11px; }
+  .aff-colors { background: var(--bg-accent); color: var(--text-accent); }
+  .aff-colors-b { background: var(--bg-success); color: var(--text-success); }
+  .aff-colors-c { background: var(--bg-warning); color: var(--text-warning); }
+  .aff-colors-d { background: var(--bg-pro); color: var(--text-pro); }
+  .empty { padding: 40px; text-align: center; color: var(--text-muted); font-size: 13px; }
+  .progress-mini { height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; margin-top: 4px; }
+  .progress-mini-fill { height: 100%; border-radius: 2px; }
+</style>
+
+<h2 class="sr-only">TikTok Shop Affiliate Intelligence Dashboard — platform demo untuk produk viral Malaysia</h2>
+
+<div id="app">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <div class="logo-icon"><i class="ti ti-chart-dots-3" aria-hidden="true"></i></div>
+        <div>
+          <div class="logo-text">AffiliQ</div>
+          <div class="logo-sub">TikTok Shop Intelligence</div>
+        </div>
+      </div>
+    </div>
+    <nav class="nav" aria-label="Navigasi utama">
+      <div class="nav-section">Utama</div>
+      <div class="nav-item active" data-page="dashboard" onclick="navigate('dashboard')">
+        <i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard
+      </div>
+      <div class="nav-item" data-page="products" onclick="navigate('products')">
+        <i class="ti ti-trending-up" aria-hidden="true"></i> Produk Viral
+      </div>
+      <div class="nav-item" data-page="affiliates" onclick="navigate('affiliates')">
+        <i class="ti ti-users" aria-hidden="true"></i> Afiliasi
+      </div>
+      <div class="nav-section">Analitik</div>
+      <div class="nav-item" data-page="ai-analysis" onclick="navigate('ai-analysis')">
+        <i class="ti ti-brain" aria-hidden="true"></i> AI Video Analysis
+      </div>
+      <div class="nav-item" onclick="sendPrompt('Bagaimana cara deploy dashboard AffiliQ ini ke Vercel dan apa struktur folder Next.js yang sesuai?')">
+        <i class="ti ti-settings" aria-hidden="true"></i> Tetapan ↗
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="data-row">
+        <span class="data-label" style="font-size:11px;">Status data</span>
+        <span class="badge badge-green">Live</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="page-title">Dashboard</div>
+      <div class="topbar-right">
+        <span class="badge badge-amber"><i class="ti ti-clock" aria-hidden="true" style="font-size:10px; margin-right:3px;"></i> Dikemas kini 5 min lalu</span>
+        <div class="avatar" title="Pengguna demo">DM</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-label">Produk Ditrack</div>
+            <div class="metric-value">1,284</div>
+            <div class="metric-delta"><i class="ti ti-arrow-up" aria-hidden="true"></i> +48 minggu ini</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Anggaran GMV</div>
+            <div class="metric-value">RM42M</div>
+            <div class="metric-delta"><i class="ti ti-arrow-up" aria-hidden="true"></i> +18% bulan ini</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Produk Viral Bulan Ini</div>
+            <div class="metric-value">87</div>
+            <div class="metric-delta"><i class="ti ti-arrow-up" aria-hidden="true"></i> 12 baru 24 jam lalu</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Top Affiliate Aktif</div>
+            <div class="metric-value">2,341</div>
+            <div class="metric-delta"><i class="ti ti-arrow-up" aria-hidden="true"></i> +126 bulan ini</div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <span class="section-title">Produk Terpanas Sekarang <span class="badge badge-red" style="margin-left:6px; font-size:10px;">HOT</span></span>
+          <span style="font-size:12px; color: var(--text-accent); cursor:pointer;" onclick="navigate('products')">Lihat semua →</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Produk</th><th>Kategori</th><th>Viral Score</th><th>Est. GMV</th><th>Trend</th>
+              </tr>
+            </thead>
+            <tbody id="dash-table"></tbody>
+          </table>
+        </div>
+
+        <div class="section-header" style="margin-top:8px;">
+          <span class="section-title">Top Afiliasi Minggu Ini</span>
+          <span style="font-size:12px; color: var(--text-accent); cursor:pointer;" onclick="navigate('affiliates')">Lihat semua →</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Kreator</th><th>Followers</th><th>Total Views</th><th>Est. Jualan</th><th>Badge</th></tr></thead>
+            <tbody id="dash-aff-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PRODUCTS PAGE -->
+      <div class="page" id="page-products">
+        <div class="section-header">
+          <span class="section-title">Top 10 Produk Viral Malaysia</span>
+          <span class="badge badge-accent">Dikemas kini real-time</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>Produk</th><th>Kategori</th><th>Est. Jualan</th><th>Est. GMV</th><th>Viral Score</th><th>Confidence</th><th>Trend</th></tr>
+            </thead>
+            <tbody id="products-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PRODUCT DETAIL -->
+      <div class="page" id="page-product-detail">
+        <button class="back-btn" onclick="navigate('products')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Kembali ke senarai</button>
+        <div id="product-detail-content"></div>
+      </div>
+
+      <!-- AFFILIATES PAGE -->
+      <div class="page" id="page-affiliates">
+        <div class="section-header">
+          <span class="section-title">Senarai Afiliasi Terbaik</span>
+          <span class="badge badge-accent">Malaysia</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Kreator</th><th>Followers</th><th>Total Views</th><th>Est. Jualan</th><th>Kategori Terbaik</th><th>Status</th></tr></thead>
+            <tbody id="affiliates-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AFFILIATE DETAIL -->
+      <div class="page" id="page-affiliate-detail">
+        <button class="back-btn" onclick="navigate('affiliates')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Kembali ke afiliasi</button>
+        <div id="affiliate-detail-content"></div>
+      </div>
+
+      <!-- AI ANALYSIS -->
+      <div class="page" id="page-ai-analysis">
+        <div class="section-header">
+          <span class="section-title">AI Video Analysis <span class="badge badge-pro" style="margin-left:6px;">Beta</span></span>
+        </div>
+        <div style="margin-bottom:16px;">
+          <select id="video-select" style="font-size:13px; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--surface-2); color:var(--text-primary); width:100%; max-width:400px;" onchange="renderAnalysis()">
+            <option value="0">Serum Jeragat Viral — Nadia Beauty (2.3M views)</option>
+            <option value="1">Krim Mata Collagen — SkinQueenMY (1.8M views)</option>
+            <option value="2">Sabun Sulphur Original — BeautySKin88 (1.1M views)</option>
+          </select>
+        </div>
+        <div id="ai-analysis-content"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const products = [
+  { id:1, emoji:"💊", name:"Serum Jeragat Viral", category:"Kecantikan", sales:"12,000 – 15,000 unit", gmv:"RM480k – RM620k", viralScore:94, confidence:"91%", confNum:91, trend:"up", topAffiliate:"Nadia Beauty", desc:"Serum pencerah kulit berasaskan niacinamide dan vitamin C yang mendominasi TikTok Shop Malaysia selama 3 minggu berturut-turut.", topVideos:[{t:"🧴","title":"Cuba 7 hari hasilnya GILA","views":"2.3M"},{"t":"✨","title":"Kulit putih dalam seminggu — jujur review","views":"1.1M"},{"t":"😱","title":"Jeragat hilang?! serius ke?","views":"890K"}], topAffs:["Nadia Beauty","GlowByAnis","SkinTokMY","BeautyQueenMY"] },
+  { id:2, emoji:"🧴", name:"Krim Mata Collagen Plus", category:"Kecantikan", sales:"8,500 – 11,000 unit", gmv:"RM340k – RM440k", viralScore:88, confidence:"87%", confNum:87, trend:"up", topAffiliate:"SkinQueenMY", desc:"Krim mata anti-penuaan dengan formula collagen triple-action. Trending dalam kalangan wanita 30an di Malaysia.", topVideos:[{t:"👁️","title":"Mata bengkak hilang dalam 3 hari","views":"1.8M"},{"t":"😍","title":"Review jujur lepas 2 minggu","views":"740K"},{"t":"💛","title":"Before after real — bukan edit","views":"560K"}], topAffs:["SkinQueenMY","MomLifeMY","FitriyaBeauty","GlowUpSis"] },
+  { id:3, emoji:"🍃", name:"Sabun Sulphur Original", category:"Kecantikan", sales:"6,000 – 9,000 unit", gmv:"RM120k – RM180k", viralScore:82, confidence:"84%", confNum:84, trend:"up", topAffiliate:"BeautySKin88", desc:"Sabun sulphur tradisi yang kini jadi trending sebab tiktok. Popular untuk rawatan jerawat dan kulit berminyak.", topVideos:[{t:"🧼","title":"Jerawat HABIS dalam 5 hari","views":"1.1M"},{"t":"😮","title":"Skincare murah tapi kerja","views":"670K"},{"t":"💚","title":"Testi real customer bukan akun fake","views":"430K"}], topAffs:["BeautySKin88","MurahTapiNajis","SkincareJujur","TokNikSkin"] },
+  { id:4, emoji:"🥗", name:"Meal Replacement Shake ProFit", category:"Kesihatan", sales:"5,200 – 7,000 unit", gmv:"RM260k – RM350k", viralScore:79, confidence:"81%", confNum:81, trend:"up", topAffiliate:"FitLifeKL", desc:"Shake pengganti makanan untuk penurunan berat badan yang viral dalam komuniti fitness Malaysia.", topVideos:[{t:"💪","title":"Turun 5kg dalam sebulan","views":"980K"},{"t":"🏃","title":"Workout + meal replacement combo","views":"510K"},{"t":"🍫","title":"Rasa sedap ke? Honest review","views":"320K"}], topAffs:["FitLifeKL","SlimmingByNur","HealthyMamaMY","KhairulFit"] },
+  { id:5, emoji:"🔌", name:"Pengecas Wireless 3-in-1", category:"Elektronik", sales:"4,800 – 6,500 unit", gmv:"RM384k – RM520k", viralScore:76, confidence:"78%", confNum:78, trend:"up", topAffiliate:"TechBroMY", desc:"Pengecas wireless untuk iPhone, AirPods dan Apple Watch serentak. Trending dalam kalangan pengguna Apple di Malaysia.", topVideos:[{t:"🔋","title":"Charge 3 gadget sekali gus!","views":"760K"},{"t":"📱","title":"Setup meja kerja aesthetic MY","views":"490K"},{"t":"⚡","title":"Laju ke? Speed test wireless","views":"280K"}], topAffs:["TechBroMY","GadgetKL","AppleFreakMY","DeskSetupMY"] },
+  { id:6, emoji:"👗", name:"Baju Kurung Moden Raya Edition", category:"Fesyen", sales:"9,000 – 12,000 unit", gmv:"RM450k – RM600k", viralScore:73, confidence:"76%", confNum:76, trend:"down", topAffiliate:"FashionQueenMY", desc:"Koleksi baju kurung moden dengan sulaman kontemporari. Stok kerap habis dalam 24 jam.", topVideos:[{t:"👘","title":"Unboxing koleksi Raya 2025","views":"1.2M"},{"t":"✨","title":"Try-on haul 5 warna","views":"640K"},{"t":"🎀","title":"Matching dengan anak sedap gila","views":"380K"}], topAffs:["FashionQueenMY","WardrobeMY","ModernMomKL","StyleByNiha"] },
+  { id:7, emoji:"🍵", name:"Teh Herba Detox TulenMY", category:"Kesihatan", sales:"3,800 – 5,500 unit", gmv:"RM76k – RM110k", viralScore:71, confidence:"73%", confNum:73, trend:"up", topAffiliate:"NaturalSisMY", desc:"Teh herba tempatan untuk detox dan meningkatkan metabolisme. Bahan 100% asli dari Pahang.", topVideos:[{t:"🫖","title":"Minum 30 hari perubahan???","views":"540K"},{"t":"🌿","title":"Testimoni serius no edit","views":"320K"},{"t":"💚","title":"Produk tempatan tak kalah import","views":"210K"}], topAffs:["NaturalSisMY","HerbalQueenMY","DetoxWithDana","WellnessKL"] },
+  { id:8, emoji:"🛏️", name:"Tilam Lipat Memory Foam", category:"Rumah", sales:"2,200 – 3,000 unit", gmv:"RM330k – RM450k", viralScore:68, confidence:"71%", confNum:71, trend:"up", topAffiliate:"HomeDecorMY", desc:"Tilam lipat berkualiti tinggi yang sesuai untuk bilik sempit. Trending dalam kalangan pelajar universiti dan pekerja urban.", topVideos:[{t:"🛏️","title":"Setup bilik kecil jadi cantik","views":"420K"},{"t":"😴","title":"Tidur nyenyak ke? Honest review","views":"260K"},{"t":"📦","title":"Unboxing + setup dalam 10 minit","views":"190K"}], topAffs:["HomeDecorMY","RumahCantikMY","LifestyleSyasya","KamarKu"] },
+  { id:9, emoji:"🎮", name:"Gamepad Wireless ProGamer X", category:"Elektronik", sales:"3,500 – 4,800 unit", gmv:"RM280k – RM384k", viralScore:65, confidence:"69%", confNum:69, trend:"down", topAffiliate:"GamingBroMY", desc:"Gamepad wireless compatible PC, Android, dan iOS. Popular dalam komuniti mobile gamer Malaysia.", topVideos:[{t:"🎮","title":"PUBG Mobile baru rasa beza!","views":"380K"},{"t":"⚡","title":"Low latency test vs original","views":"220K"},{"t":"💥","title":"Setup gaming budget Malaysia 2025","views":"180K"}], topAffs:["GamingBroMY","GadgetKL","EsportsMY","MobileGamerMY"] },
+  { id:10, emoji:"🧹", name:"Penyedut Habuk Mini Wireless", category:"Rumah", sales:"4,200 – 5,800 unit", gmv:"RM126k – RM174k", viralScore:61, confidence:"66%", confNum:66, trend:"up", topAffiliate:"CleanHomeMY", desc:"Penyedut habuk mini wireless untuk meja kerja dan kereta. Best seller dalam kategori rumah TikTok Shop.", topVideos:[{t:"🧹","title":"Meja kerja bersih dalam 2 minit","views":"310K"},{"t":"🚗","title":"Bersih kereta guna mini vacuum","views":"190K"},{"t":"⚡","title":"Battery tahan berapa lama? Test!","views":"140K"}], topAffs:["CleanHomeMY","HomeHacksMY","OfficeVibeKL","CarCareKL"] }
+];
+
+const affiliates = [
+  { id:1, init:"NB", name:"Nadia Beauty", followers:"892K", views:"24.3M", sales:"RM180K+", cat:"Kecantikan", tier:"Top Creator", color:"aff-colors-b", bio:"Kreator kecantikan No.1 Malaysia dengan engagement rate 8.2%. Spesialis serum dan skincare.", vids:[{e:"🧴","title":"Serum Jeragat 7 hari — RESULT","views":"2.3M",conv:"4.2%"},{e:"✨","title":"Skincare routine pagi RM50 je","views":"1.1M",conv:"3.8%"},{e:"💛","title":"Unboxing parcel TikTok Shop haul","views":"870K",conv:"2.9%"}] },
+  { id:2, init:"SQ", name:"SkinQueenMY", followers:"641K", views:"18.7M", sales:"RM142K+", cat:"Kecantikan", tier:"Top Creator", color:"aff-colors-b", bio:"Review skincare jujur tanpa campur tangan brand. Komuniti 641K setia mengikuti recommendation.", vids:[{e:"👁️","title":"Krim mata collagen — 14 hari test","views":"1.8M",conv:"3.9%"},{e:"😍","title":"Haul produk baru bulan ini","views":"720K",conv:"3.1%"},{e:"💊","title":"Supplement mana worth it?","views":"510K",conv:"2.7%"}] },
+  { id:3, init:"FL", name:"FitLifeKL", followers:"523K", views:"15.2M", sales:"RM121K+", cat:"Kesihatan", tier:"Rising Star", color:"aff-colors", bio:"Content fitness + nutrition terbaik Malaysia. Gabungkan lifestyle sihat dengan produk affordable.", vids:[{e:"💪","title":"Transformation 30 hari — real result","views":"980K",conv:"4.5%"},{e:"🥗","title":"Meal prep mingguan RM100","views":"670K",conv:"3.6%"},{e:"🏃","title":"Cardio + supplement combo","views":"420K",conv:"3.2%"}] },
+  { id:4, init:"TB", name:"TechBroMY", followers:"418K", views:"11.9M", sales:"RM98K+", cat:"Elektronik", tier:"Top Creator", color:"aff-colors-d", bio:"Review gadget dan aksesori tech paling comprehensive Malaysia. Trusted oleh 418K tech enthusiast.", vids:[{e:"🔌","title":"Wireless charger worth it?","views":"760K",conv:"3.4%"},{e:"📱","title":"Best budget smartphone accessories 2025","views":"540K",conv:"3.0%"},{e:"⚡","title":"Speed test 10 powerbank budget","views":"380K",conv:"2.8%"}] },
+  { id:5, init:"FQ", name:"FashionQueenMY", followers:"387K", views:"10.4M", sales:"RM89K+", cat:"Fesyen", tier:"Top Creator", color:"aff-colors-c", bio:"Content fesyen Melayu moden dengan fokus modest wear dan baju kurung kontemporari.", vids:[{e:"👗","title":"Koleksi Raya 2025 — review awal","views":"1.2M",conv:"3.7%"},{e:"✨","title":"OOTDs minggu ni TikTok haul","views":"580K",conv:"3.2%"},{e:"🎀","title":"Styling tips baju kurung moden","views":"340K",conv:"2.6%"}] },
+  { id:6, init:"BS", name:"BeautySKin88", followers:"312K", views:"8.8M", sales:"RM76K+", cat:"Kecantikan", tier:"Rising Star", color:"aff-colors-b", bio:"Spesialis produk skincare tempatan dan herbal. Review authentic dengan before/after real.", vids:[{e:"🧼","title":"Sabun sulphur — 5 hari result","views":"1.1M",conv:"4.1%"},{e:"🌿","title":"Natural skincare Malaysia vs import","views":"490K",conv:"3.5%"},{e:"✅","title":"Skincare rutin malam budget","views":"280K",conv:"2.9%"}] }
+];
+
+const analysisData = [
+  { product: "Serum Jeragat Viral — Nadia Beauty", duration:"01:24", views:"2.3M", likes:"187K", saves:"43K", conv:"4.2%", hook:"Tunjuk kulit dalam 0-3 saat pertama", hookScore:94, script:"Pembuka dengan masalah relatable (jeragat), demo sebelum-selepas 7 hari, testimoni segera, CTA link bio. Teknik 'pain → solution → proof' digunakan secara konsisten.", why:["Hook visual kuat — jeragat jelas nampak dalam frame pertama","Tempo cepat 4-6 saat per cut mengelakkan viewers drop","Kreator guna bahasa harian 'tau tak korang' bukan bahasa formal","Timing CTA tepat di saat ke-58 selepas proof ditunjukkan","Sound trend terkini digunakan untuk boost distribusi organik"],improve:["Tambah subtitle BM untuk views mobile tanpa bunyi","Cuba POV angle untuk lebih authentic","A/B test hook berbeza: sebelum vs masalah jeragat dulu","Panjangkan demo ke 14 hari untuk kredibiliti lebih tinggi","Sertakan angka unit terjual untuk social proof"] },
+  { product: "Krim Mata Collagen Plus — SkinQueenMY", duration:"01:52", views:"1.8M", likes:"142K", saves:"38K", conv:"3.9%", hook:"Before/after mata bengkak dalam 3 saat", hookScore:88, script:"Pembuka dengan masalah mata bengkak selepas tidur, demo pagi ke malam, testimonial dengan emosi, close dengan offer limited.", why:["Before/after side-by-side sangat meyakinkan dalam 3 saat pertama","Target audiens spesifik: ibu bekerja 30an — relatable problem","Cahayaan natural yang baik menampakkan hasil produk","Kreator emotional storytelling meningkatkan connection","Timestamp 'hari ke-3' memberi harapan realistic kepada viewer"],improve:["Kurangkan time tunggu antara masalah dan penyelesaian","Guna derma/pakar sebagai guest untuk authority","Test hook baru: 'Doktor rekomen pun produk ni'","Tambah countdown timer untuk urgency di akhir video","Highlight ingredient utama collagen secara visual"] },
+  { product: "Sabun Sulphur Original — BeautySKin88", duration:"01:07", views:"1.1M", likes:"89K", saves:"31K", conv:"4.1%", hook:"Close-up jerawat hilang sepenuhnya dalam 3 hari", hookScore:82, script:"Hook jerawat close-up, demo penggunaan step-by-step, before/after hari 1 dan hari 5, komuniti testimonial di akhir video.", why:["Harga yang sangat berpatutan buat viewers lebih mudah membeli","Produk traditional yang ada trust factor dalam masyarakat Melayu","Demo penggunaan mudah dan realistik untuk semua orang","Hashtag komuniti #sabunsuphur membantu organic reach","Duration pendek (67 saat) sesuai dengan viewer attention span"],improve:["Tambah ingredient list dalam video untuk credibility","Collaborate dengan skincare expert untuk endorsement","Buat siri video 30-hari untuk engagement jangka panjang","Highlight asal usul produk Malaysia untuk patriotik angle","Cipta hashtag challenge khusus untuk user generated content"] }
+];
+
+function navigate(page, data) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  const navItem = document.querySelector('[data-page="' + page + '"]');
+  if (navItem) navItem.classList.add('active');
+  const titles = { dashboard:'Dashboard', products:'Produk Viral', 'product-detail':'Detail Produk', affiliates:'Afiliasi', 'affiliate-detail':'Detail Afiliasi', 'ai-analysis':'AI Video Analysis' };
+  document.getElementById('page-title').textContent = titles[page] || page;
+  if (page === 'product-detail' && data) renderProductDetail(data);
+  if (page === 'affiliate-detail' && data) renderAffiliateDetail(data);
+  if (page === 'ai-analysis') renderAnalysis();
+}
+
+function renderDashTable() {
+  const tbody = document.getElementById('dash-table');
+  tbody.innerHTML = products.slice(0,5).map((p,i) => `
+    <tr class="clickable" onclick="navigate('product-detail', ${p.id})">
+      <td style="color:var(--text-muted); font-size:12px;">${i+1}</td>
+      <td><div class="product-cell"><div class="product-img">${p.emoji}</div><div><div class="product-name">${p.name}</div></div></div></td>
+      <td><span class="badge badge-accent">${p.category}</span></td>
+      <td>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill ${p.viralScore>85?'score-fill-high':''}" style="width:${p.viralScore}%"></div></div>
+          <span class="score-num">${p.viralScore}</span>
+        </div>
+      </td>
+      <td style="font-size:13px; font-weight:500;">${p.gmv}</td>
+      <td>${p.trend==='up'?'<span class="trend-up"><i class="ti ti-trending-up"></i></span>':'<span class="trend-down"><i class="ti ti-trending-down"></i></span>'}</td>
+    </tr>`).join('');
+}
+
+function renderDashAffTable() {
+  const tbody = document.getElementById('dash-aff-table');
+  tbody.innerHTML = affiliates.slice(0,4).map((a,i) => `
+    <tr class="clickable" onclick="navigate('affiliate-detail', ${a.id})">
+      <td style="color:var(--text-muted); font-size:12px;">${i+1}</td>
+      <td><div class="product-cell"><div class="aff-avatar ${a.color}">${a.init}</div><div class="product-name">${a.name}</div></div></td>
+      <td style="font-size:13px;">${a.followers}</td>
+      <td style="font-size:13px;">${a.views}</td>
+      <td style="font-size:13px; font-weight:500; color:var(--text-success);">${a.sales}</td>
+      <td><span class="badge badge-pro">${a.tier}</span></td>
+    </tr>`).join('');
+}
+
+function renderProductsTable() {
+  const tbody = document.getElementById('products-table');
+  tbody.innerHTML = products.map((p,i) => `
+    <tr class="clickable" onclick="navigate('product-detail', ${p.id})">
+      <td style="color:var(--text-muted); font-size:12px;">${i+1}</td>
+      <td><div class="product-cell"><div class="product-img">${p.emoji}</div><div><div class="product-name">${p.name}</div></div></div></td>
+      <td><span class="badge badge-accent">${p.category}</span></td>
+      <td style="font-size:12px;">${p.sales}</td>
+      <td style="font-size:12px; font-weight:500;">${p.gmv}</td>
+      <td>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill ${p.viralScore>80?'score-fill-high':''}" style="width:${p.viralScore}%"></div></div>
+          <span class="score-num">${p.viralScore}</span>
+        </div>
+      </td>
+      <td><span class="badge ${p.confNum>85?'badge-green':'badge-amber'}">${p.confidence}</span></td>
+      <td>${p.trend==='up'?'<span class="trend-up"><i class="ti ti-trending-up"></i> Naik</span>':'<span class="trend-down"><i class="ti ti-trending-down"></i> Turun</span>'}</td>
+    </tr>`).join('');
+}
+
+function renderAffiliatesTable() {
+  const tbody = document.getElementById('affiliates-table');
+  tbody.innerHTML = affiliates.map((a,i) => `
+    <tr class="clickable" onclick="navigate('affiliate-detail', ${a.id})">
+      <td style="color:var(--text-muted); font-size:12px;">${i+1}</td>
+      <td><div class="product-cell"><div class="aff-avatar ${a.color}">${a.init}</div><div><div class="product-name">${a.name}</div><div class="product-cat">${a.bio.substring(0,40)}...</div></div></div></td>
+      <td style="font-size:13px;">${a.followers}</td>
+      <td style="font-size:13px;">${a.views}</td>
+      <td style="font-size:13px; font-weight:500; color:var(--text-success);">${a.sales}</td>
+      <td><span class="badge badge-accent">${a.cat}</span></td>
+      <td><span class="badge ${a.tier==='Top Creator'?'badge-pro':'badge-green'}">${a.tier}</span></td>
+    </tr>`).join('');
+}
+
+function renderProductDetail(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('product-detail-content').innerHTML = `
+    <div class="detail-hero">
+      <div class="hero-icon">${p.emoji}</div>
+      <div class="hero-info">
+        <div class="hero-meta">
+          <span class="badge badge-accent">${p.category}</span>
+          <span class="badge ${p.viralScore>85?'badge-green':'badge-amber'}">Viral Score: ${p.viralScore}</span>
+          <span class="badge badge-pro">Confidence: ${p.confidence}</span>
+          ${p.trend==='up'?'<span class="badge badge-green"><i class="ti ti-trending-up"></i> Trending Naik</span>':'<span class="badge badge-red"><i class="ti ti-trending-down"></i> Trending Turun</span>'}
+        </div>
+        <div class="hero-name">${p.name}</div>
+        <div style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:14px;">${p.desc}</div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="hero-stat-label">Est. Jualan</div><div class="hero-stat-val" style="font-size:13px;">${p.sales}</div></div>
+          <div class="hero-stat"><div class="hero-stat-label">Est. GMV</div><div class="hero-stat-val" style="font-size:13px; color:var(--text-success);">${p.gmv}</div></div>
+          <div class="hero-stat"><div class="hero-stat-label">Top Afiliasi</div><div class="hero-stat-val" style="font-size:13px; color:var(--text-accent);">${p.topAffiliate}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title"><i class="ti ti-brand-tiktok" aria-hidden="true"></i> Top Video Viral</div>
+        ${p.topVideos.map(v => `<div class="video-row"><div class="video-thumb">${v.t}</div><div style="flex:1;"><div class="video-title">${v.title}</div><div class="video-views"><i class="ti ti-eye" aria-hidden="true"></i> ${v.views} views</div></div></div>`).join('')}
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-users" aria-hidden="true"></i> Top Afiliasi Produk Ini</div>
+        ${p.topAffs.map((a,i) => {
+          const aff = affiliates.find(x => x.name === a);
+          return `<div class="affiliate-row" onclick="${aff?'navigate(\'affiliate-detail\',' + aff.id + ')':''}">
+            <div class="aff-avatar ${aff?aff.color:'aff-colors'}">${a.substring(0,2).toUpperCase()}</div>
+            <div class="aff-name">${a}</div>
+            <span class="badge badge-accent" style="font-size:10px;">#${i+1}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-title">Anggaran Jualan & Confidence Range</div>
+      <div style="display:flex; gap:16px; align-items:center;">
+        <div class="confidence-ring">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="30" stroke="var(--border)" stroke-width="6" fill="none"/>
+            <circle cx="40" cy="40" r="30" stroke="var(--fill-accent)" stroke-width="6" fill="none" stroke-dasharray="${2*3.14159*30}" stroke-dashoffset="${2*3.14159*30*(1-p.confNum/100)}" stroke-linecap="round"/>
+          </svg>
+          <div class="ring-label">
+            <span class="ring-pct">${p.confidence}</span>
+            <span class="ring-sub">confidence</span>
+          </div>
+        </div>
+        <div style="flex:1;">
+          <div class="data-row"><span class="data-label">Range jualan</span><span class="data-val">${p.sales}</span></div>
+          <div class="data-row"><span class="data-label">Range GMV</span><span class="data-val" style="color:var(--text-success);">${p.gmv}</span></div>
+          <div class="data-row"><span class="data-label">Kategori</span><span class="data-val">${p.category}</span></div>
+          <div class="data-row"><span class="data-label">Viral Score</span><span class="data-val" style="color:var(--text-accent);">${p.viralScore}/100</span></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderAffiliateDetail(id) {
+  const a = affiliates.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('affiliate-detail-content').innerHTML = `
+    <div class="detail-hero">
+      <div class="aff-avatar ${a.color}" style="width:60px;height:60px;font-size:20px;border-radius:50%;flex-shrink:0;">${a.init}</div>
+      <div class="hero-info">
+        <div class="hero-name">${a.name}</div>
+        <div class="hero-meta">
+          <span class="badge ${a.tier==='Top Creator'?'badge-pro':'badge-green'}">${a.tier}</span>
+          <span class="badge badge-accent">${a.cat}</span>
+        </div>
+        <div style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:14px;">${a.bio}</div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="hero-stat-label">Followers</div><div class="hero-stat-val">${a.followers}</div></div>
+          <div class="hero-stat"><div class="hero-stat-label">Total Views</div><div class="hero-stat-val">${a.views}</div></div>
+          <div class="hero-stat"><div class="hero-stat-label">Est. Jualan</div><div class="hero-stat-val" style="color:var(--text-success);">${a.sales}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-title"><i class="ti ti-video" aria-hidden="true"></i> Video Terbaik</div>
+      ${a.vids.map(v => `
+        <div class="video-row">
+          <div class="video-thumb">${v.e}</div>
+          <div style="flex:1;"><div class="video-title">${v.title}</div><div class="video-views">${v.views} views</div></div>
+          <span class="badge badge-green" style="font-size:10px;">${v.conv} CVR</span>
+        </div>`).join('')}
+    </div>
+    <div class="card">
+      <div class="card-title">Analitik Prestasi</div>
+      <div class="data-row"><span class="data-label">Engagement rate anggaran</span><span class="data-val" style="color:var(--text-accent);">7.8 – 9.1%</span></div>
+      <div class="data-row"><span class="data-label">Conversion rate purata</span><span class="data-val" style="color:var(--text-success);">${a.vids[0].conv}</span></div>
+      <div class="data-row"><span class="data-label">Kategori dominan</span><span class="data-val">${a.cat}</span></div>
+      <div class="data-row"><span class="data-label">Status</span><span class="data-val">${a.tier}</span></div>
+    </div>`;
+}
+
+function renderAnalysis() {
+  const idx = parseInt(document.getElementById('video-select').value);
+  const d = analysisData[idx];
+  document.getElementById('ai-analysis-content').innerHTML = `
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px;">
+      <div class="metric-card"><div class="metric-label">Views</div><div class="metric-value" style="font-size:18px;">${d.views}</div></div>
+      <div class="metric-card"><div class="metric-label">Likes</div><div class="metric-value" style="font-size:18px;">${d.likes}</div></div>
+      <div class="metric-card"><div class="metric-label">Simpan</div><div class="metric-value" style="font-size:18px;">${d.saves}</div></div>
+      <div class="metric-card"><div class="metric-label">Conv. Rate</div><div class="metric-value" style="font-size:18px; color:var(--text-success);">${d.conv}</div></div>
+    </div>
+    <div class="ai-box" style="margin-bottom:14px;">
+      <div class="ai-box-title"><i class="ti ti-bolt" aria-hidden="true"></i> Analisis Hook</div>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div style="flex:1;">
+          <div class="ai-box-body" style="margin-bottom:10px;">${d.hook}</div>
+          <div style="font-size:11px; color:var(--text-pro); margin-bottom:4px;">Hook Score</div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="score-bar" style="flex:1; height:6px; background:var(--border-pro);"><div style="height:100%; width:${d.hookScore}%; background:var(--fill-pro); border-radius:3px;"></div></div>
+            <span style="font-size:13px; font-weight:500; color:var(--text-pro);">${d.hookScore}/100</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:14px;">
+      <div class="card-title"><i class="ti ti-file-text" aria-hidden="true"></i> Struktur Script / Transcript</div>
+      <div style="font-size:13px; color:var(--text-secondary); line-height:1.7;">${d.script}</div>
+    </div>
+    <div class="ai-box" style="margin-bottom:14px;">
+      <div class="ai-box-title"><i class="ti ti-brain" aria-hidden="true"></i> Kenapa Video Ini Perform</div>
+      ${d.why.map(w => `<div class="ai-point"><span class="ai-bullet">▸</span><span class="ai-box-body">${w}</span></div>`).join('')}
+    </div>
+    <div class="improvement-list">
+      <div class="improvement-title"><i class="ti ti-sparkles" aria-hidden="true"></i> Cadangan Penambahbaikan</div>
+      ${d.improve.map((imp,i) => `<div class="improvement-item"><span class="imp-num">${i+1}.</span><span>${imp}</span></div>`).join('')}
+    </div>`;
+}
+
+renderDashTable();
+renderDashAffTable();
+renderProductsTable();
+renderAffiliatesTable();
+renderAnalysis();
+</script>
