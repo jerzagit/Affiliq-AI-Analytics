@@ -35,8 +35,8 @@ export function ProductRow({ product, index }: {
       </td>
       <td>
         {product.trend === "up"
-          ? <span className="trend-up"><i className="ti ti-trending-up"></i> Naik</span>
-          : <span className="trend-down"><i className="ti ti-trending-down"></i> Turun</span>
+          ? <span className="trend-up"><i className="ti ti-trending-up"></i> Up</span>
+          : <span className="trend-down"><i className="ti ti-trending-down"></i> Down</span>
         }
       </td>
     </tr>

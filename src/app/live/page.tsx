@@ -63,9 +63,9 @@ export default function LivePage() {
         type,
         label: type === "product" ? "Produk" : type === "affiliate" ? "Affiliate" : "Video",
         detail: type === "product"
-          ? `Data jualan: ${randBetween(100, 5000)} unit (RM${randBetween(5, 200)}K) — ${source}`
+          ? `Sales data: ${randBetween(100, 5000)} unit (RM${randBetween(5, 200)}K) — ${source}`
           : type === "affiliate"
-          ? `Kreator dikesan: ${randBetween(10, 500)} followers baru — ${source}`
+          ? `Creator detected: ${randBetween(10, 500)} followers baru — ${source}`
           : `Transcript selesai: ${randBetween(30, 120)} saat — ${source}`,
         time: formatTime(new Date()),
       }
@@ -126,7 +126,7 @@ export default function LivePage() {
               </div>
             </div>
             <div>
-              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 2 }}>Data Source</div>
+              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 2 }}>Source</div>
               <div style={{ fontSize: 15, fontWeight: 600 }}>TikTok Shop MY</div>
             </div>
             <div>
@@ -143,24 +143,24 @@ export default function LivePage() {
 
         <div className="metric-grid">
           <div className="metric-card glow-accent">
-            <div className="metric-label"><i className="ti ti-box"></i> Produk Discrape Hari Ini</div>
+            <div className="metric-label"><i className="ti ti-box"></i> Scraped Products Today</div>
             <div className="metric-value">{scrapedProducts.toLocaleString()}</div>
-            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(10, 50)} 5 min lalu</div>
+            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(10, 50)} 5 min ago</div>
           </div>
           <div className="metric-card glow-success">
-            <div className="metric-label"><i className="ti ti-flame"></i> Produk Viral Hari Ini</div>
+            <div className="metric-label"><i className="ti ti-flame"></i> Viral Products Today</div>
             <div className="metric-value">{viralToday}</div>
-            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(1, 8)} sejam lalu</div>
+            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(1, 8)} 1h ago</div>
           </div>
           <div className="metric-card">
-            <div className="metric-label"><i className="ti ti-currency-ringgit"></i> Total Jualan Discrape</div>
+            <div className="metric-label"><i className="ti ti-currency-ringgit"></i> Total Scraped Sales</div>
             <div className="metric-value">{totalSales.toLocaleString()}</div>
-            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(50, 500)} hari ini</div>
+            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(50, 500)} today</div>
           </div>
           <div className="metric-card">
-            <div className="metric-label"><i className="ti ti-users"></i> Affiliate Aktif</div>
+            <div className="metric-label"><i className="ti ti-users"></i> Active Affiliates</div>
             <div className="metric-value">{activeAffiliates.toLocaleString()}</div>
-            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(1, 10)} bulan ini</div>
+            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(1, 10)} this month</div>
           </div>
         </div>
 
@@ -212,7 +212,7 @@ export default function LivePage() {
               {events.length === 0 && (
                 <div style={{ color: "var(--text-muted)", padding: 16, textAlign: "center" }}>
                   <i className="ti ti-loader" style={{ fontSize: 20, display: "block", marginBottom: 8 }}></i>
-                  Menunggu data...
+                  Waiting for data...
                 </div>
               )}
               {events.map(e => (
@@ -231,11 +231,11 @@ export default function LivePage() {
         </div>
 
         <div className="section-header">
-          <span className="section-title">Top Produk Viral Hari Ini — Live</span>
+          <span className="section-title">Top Viral Products Today — Live</span>
           <div style={{ display: "flex", gap: 8 }}>
             <span className="badge badge-red" style={{ fontSize: 10 }}>
               <span className="live-dot" style={{ width: 5, height: 5, marginRight: 3 }}></span>
-              DIKEMASKINI SEGERA
+              LIVE UPDATES
             </span>
             <button className="btn btn-ghost btn-sm" onClick={() => window.location.reload()}>
               <i className="ti ti-refresh"></i> Refresh
@@ -247,7 +247,7 @@ export default function LivePage() {
           <table>
             <thead>
               <tr>
-                <th>#</th><th>Produk</th><th>Kategori</th><th>Est. Jualan</th><th>Est. GMV</th><th>Viral Score</th><th>Confidence</th><th>Trend 5min</th>
+                <th>#</th><th>Produk</th><th>Category</th><th>Est. Sales</th><th>Est. GMV</th><th>Viral Score</th><th>Confidence</th><th>Trend 5min</th>
               </tr>
             </thead>
             <tbody>

@@ -6,14 +6,14 @@ export default function ProductsPage() {
     <>
       <div className="section-header">
         <span className="section-title">Top 10 Produk Viral Malaysia</span>
-        <span className="badge badge-accent">Dikemas kini real-time</span>
+        <span className="badge badge-accent">Real-time</span>
       </div>
 
       <div className="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>#</th><th>Produk</th><th>Kategori</th><th>Est. Jualan</th><th>Est. GMV</th><th>Viral Score</th><th>Confidence</th><th>Trend</th>
+              <th>#</th><th>Produk</th><th>Category</th><th>Est. Sales</th><th>Est. GMV</th><th>Viral Score</th><th>Confidence</th><th>Trend</th>
             </tr>
           </thead>
           <tbody>

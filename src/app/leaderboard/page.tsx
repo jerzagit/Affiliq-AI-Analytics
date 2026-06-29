@@ -16,7 +16,7 @@ export default function LeaderboardPage() {
     <div className="fade-in">
       <div className="section-header">
         <span className="section-title"><i className="ti ti-trophy" style={{ color: "#f59e0b" }}></i> Creator Leaderboard</span>
-        <span className="badge badge-green">Dikemas kini 5 min lalu</span>
+        <span className="badge badge-green">Updated 5 min ago</span>
       </div>
 
       <div className="metric-grid" style={{ gridTemplateColumns: "repeat(4,1fr)" }}>
@@ -28,17 +28,17 @@ export default function LeaderboardPage() {
         <div className="metric-card">
           <div className="metric-label">Avg. Viral Views</div>
           <div className="metric-value" style={{ fontSize: 18 }}>2.1M</div>
-          <div className="metric-delta"><i className="ti ti-arrow-up"></i> +12% minggu ini</div>
+          <div className="metric-delta"><i className="ti ti-arrow-up"></i> +12% this week</div>
         </div>
         <div className="metric-card">
           <div className="metric-label">Total Revenue Tracked</div>
           <div className="metric-value" style={{ fontSize: 18 }}>RM816K</div>
-          <div className="metric-delta"><i className="ti ti-arrow-up"></i> +8% bulan ini</div>
+          <div className="metric-delta"><i className="ti ti-arrow-up"></i> +8% this month</div>
         </div>
         <div className="metric-card">
           <div className="metric-label">Active Creators</div>
           <div className="metric-value" style={{ fontSize: 18 }}>2,341</div>
-          <div className="metric-delta"><i className="ti ti-arrow-up"></i> +126 bulan ini</div>
+          <div className="metric-delta"><i className="ti ti-arrow-up"></i> +126 this month</div>
         </div>
       </div>
 

@@ -35,9 +35,9 @@ export default function SavedPage() {
       {saved.length === 0 ? (
         <div className="card" style={{ textAlign: "center", padding: 48 }}>
           <div style={{ fontSize: 48, marginBottom: 12, opacity: 0.5 }}><i className="ti ti-bookmark-off"></i></div>
-          <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 6 }}>Belum ada analisis disimpan</div>
+          <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 6 }}>No saved analyses yet</div>
           <div style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 16 }}>
-            Analisis video TikTok anda akan muncul di sini. Klik 'Save' selepas analyze.
+            Your TikTok video analyses will appear here. Click 'Save' after analyzing.
           </div>
           <button className="btn btn-primary" onClick={() => window.location.href = "/ai-analysis"}>
             <i className="ti ti-sparkles"></i> Analyze Video Now
@@ -82,7 +82,7 @@ export default function SavedPage() {
           <i className="ti ti-database"></i> Saved to Local Database
         </div>
         <div style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7 }}>
-          Analisis disimpan dalam <strong>IndexedDB</strong> (local) untuk akses luar talian. Apabila backend diintegrasikan, data akan disimpan ke <strong>PostgreSQL</strong> dan boleh diakses dari mana-mana peranti.
+          Analyses stored in <strong>IndexedDB</strong> (local) for offline access. When the backend is integrated, data will be saved to <strong>PostgreSQL</strong> and accessible from any device.
         </div>
         <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
           <span className="badge badge-green" style={{ fontSize: 9 }}>2 items</span>

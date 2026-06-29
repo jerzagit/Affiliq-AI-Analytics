@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "AffiliQ — TikTok Shop Intelligence",
-  description: "TikTok Shop Affiliate Intelligence Dashboard — platform demo untuk produk viral Malaysia",
+  description: "TikTok Shop Affiliate Intelligence Dashboard — demo platform for Malaysian viral products",
 }
 
 export default function RootLayout({

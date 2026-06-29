@@ -64,7 +64,7 @@ export default function TopBar() {
           <i className="ti ti-clock"></i> 5 min ago
         </span>
         <ThemeToggle />
-        <div className="avatar" title="Pengguna demo">DM</div>
+        <div className="avatar" title="Demo User">DM</div>
       </div>
     </div>
   )

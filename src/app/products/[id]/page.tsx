@@ -11,7 +11,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ id: s
   return (
     <>
       <Link href="/products" className="back-btn">
-        <i className="ti ti-arrow-left" aria-hidden="true"></i> Kembali ke senarai
+        <i className="ti ti-arrow-left" aria-hidden="true"></i> Back to Products
       </Link>
 
       <div className="detail-hero">
@@ -24,8 +24,8 @@ export default async function ProductDetailPage(props: { params: Promise<{ id: s
             </span>
             <span className="badge badge-pro">Confidence: {p.confidence}</span>
             {p.trend === "up"
-              ? <span className="badge badge-green"><i className="ti ti-trending-up"></i> Trending Naik</span>
-              : <span className="badge badge-red"><i className="ti ti-trending-down"></i> Trending Turun</span>
+              ? <span className="badge badge-green"><i className="ti ti-trending-up"></i> Trending Up</span>
+              : <span className="badge badge-red"><i className="ti ti-trending-down"></i> Trending Down</span>
             }
           </div>
           <div className="hero-name">{p.name}</div>
@@ -34,7 +34,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ id: s
           </div>
           <div className="hero-stats">
             <div className="hero-stat">
-              <div className="hero-stat-label">Est. Jualan</div>
+              <div className="hero-stat-label">Est. Sales</div>
               <div className="hero-stat-val" style={{ fontSize: 13 }}>{p.sales}</div>
             </div>
             <div className="hero-stat">
@@ -80,7 +80,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ id: s
       </div>
 
       <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-title">Anggaran Jualan & Confidence Range</div>
+        <div className="card-title">Sales Estimate & Confidence Range</div>
         <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
           <div className="confidence-ring">
             <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
@@ -99,9 +99,9 @@ export default async function ProductDetailPage(props: { params: Promise<{ id: s
             </div>
           </div>
           <div style={{ flex: 1 }}>
-            <div className="data-row"><span className="data-label">Range jualan</span><span className="data-val">{p.sales}</span></div>
+            <div className="data-row"><span className="data-label">Sales range</span><span className="data-val">{p.sales}</span></div>
             <div className="data-row"><span className="data-label">Range GMV</span><span className="data-val" style={{ color: "var(--text-success)" }}>{p.gmv}</span></div>
-            <div className="data-row"><span className="data-label">Kategori</span><span className="data-val">{p.category}</span></div>
+            <div className="data-row"><span className="data-label">Category</span><span className="data-val">{p.category}</span></div>
             <div className="data-row"><span className="data-label">Viral Score</span><span className="data-val" style={{ color: "var(--text-accent)" }}>{p.viralScore}/100</span></div>
           </div>
         </div>

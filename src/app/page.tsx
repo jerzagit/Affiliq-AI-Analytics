@@ -14,9 +14,9 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const h = new Date().getHours()
-    if (h < 12)       setGreeting("Selamat Pagi")
-    else if (h < 18) setGreeting("Selamat Tengahari")
-    else setGreeting("Selamat Malam")
+    if (h < 12)       setGreeting("Good Morning")
+    else if (h < 18) setGreeting("Good Afternoon")
+    else setGreeting("Good Evening")
   }, [])
 
   useEffect(() => {
@@ -36,16 +36,16 @@ export default function DashboardPage() {
       <div className="fade-in">
         <div className="hero-welcome">
           <div className="hero-welcome-content">
-            <h2>{greeting || "Selamat Datang"}, Pengguna</h2>
-            <p>AffiliQ — TikTok Shop Intelligence Platform. Pantau produk viral, analisis video, dan track affiliate dalam masa nyata.</p>
+            <h2>{greeting || "Welcome"}, User</h2>
+            <p>AffiliQ — TikTok Shop Intelligence Platform. Monitor viral products, analyze videos, and track affiliates in real-time.</p>
             <div className="hero-stats-row">
               <div className="hero-stat-item">
                 <span className="h-num">{liveProducts.toLocaleString()}</span>
-                <span className="h-label">Produk Ditrack</span>
+                <span className="h-label">Tracked Products</span>
               </div>
               <div className="hero-stat-item">
                 <span className="h-num">RM{(liveSales / 1000).toFixed(0)}K</span>
-                <span className="h-label">Jualan Hari Ini</span>
+                <span className="h-label">Today's Sales</span>
               </div>
               <div className="hero-stat-item">
                 <span className="h-num">{(liveViews / 1000000).toFixed(1)}M</span>
@@ -61,24 +61,24 @@ export default function DashboardPage() {
 
         <div className="metric-grid">
           <div className="metric-card">
-            <div className="metric-label">Produk Ditrack</div>
+            <div className="metric-label">Tracked Products</div>
             <div className="metric-value">{liveProducts.toLocaleString()}</div>
-            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +48 minggu ini</div>
+            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +48 this week</div>
           </div>
           <div className="metric-card">
-            <div className="metric-label">Jualan Hari Ini (Scrape)</div>
+            <div className="metric-label">Today's Sales (Scrape)</div>
             <div className="metric-value">RM{liveSales.toLocaleString()}</div>
-            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +18% bulan ini</div>
+            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +18% this month</div>
           </div>
           <div className="metric-card">
-            <div className="metric-label">Total Views Discrape</div>
+            <div className="metric-label">Total Scraped Views</div>
             <div className="metric-value">{(liveViews / 1000).toFixed(0)}K</div>
-            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{(liveViews % 1000).toLocaleString()} sejam lalu</div>
+            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{(liveViews % 1000).toLocaleString()} 1h ago</div>
           </div>
           <div className="metric-card">
             <div className="metric-label">Top Affiliate Aktif</div>
             <div className="metric-value">2,341</div>
-            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +126 bulan ini</div>
+            <div className="metric-delta"><i className="ti ti-arrow-up"></i> +126 this month</div>
           </div>
         </div>
 
@@ -88,7 +88,7 @@ export default function DashboardPage() {
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 13, fontWeight: 500 }}>Live: Viral Products Today</div>
               <div style={{ fontSize: 12, color: "var(--text-muted)" }}>
-                <i className="ti ti-radar"></i> Scraping data dari TikTok Shop Malaysia — {new Date().toLocaleTimeString("ms-MY", { hour: "2-digit", minute: "2-digit" })}
+                <i className="ti ti-radar"></i> Scraping data from TikTok Shop Malaysia — {new Date().toLocaleTimeString("ms-MY", { hour: "2-digit", minute: "2-digit" })}
               </div>
             </div>
             <Link href="/live" className="btn btn-primary btn-sm">
@@ -99,11 +99,11 @@ export default function DashboardPage() {
 
         <div className="section-header">
           <span className="section-title">
-            Produk Terpanas Sekarang
-            <span className="badge badge-red" style={{ marginLeft: 6, fontSize: 10 }}>HOT</span>
+            Produk Popular
+            <span className="badge badge-red" style={{ marginLeft: 6, fontSize: 10 }}>🔥</span>
           </span>
           <Link href="/products" className="btn btn-ghost btn-sm">
-            Lihat semua <i className="ti ti-arrow-right"></i>
+            View All <i className="ti ti-arrow-right"></i>
           </Link>
         </div>
 
@@ -111,7 +111,7 @@ export default function DashboardPage() {
           <table>
             <thead>
               <tr>
-                <th>#</th><th>Produk</th><th>Kategori</th><th>Viral Score</th><th>Est. GMV</th><th>Trend</th>
+                <th>#</th><th>Produk</th><th>Category</th><th>Viral Score</th><th>Est. GMV</th><th>Trend</th>
               </tr>
             </thead>
             <tbody>
@@ -123,9 +123,9 @@ export default function DashboardPage() {
         </div>
 
         <div className="section-header" style={{ marginTop: 8 }}>
-          <span className="section-title">Top Affiliate Minggu Ini</span>
+          <span className="section-title">Top Affiliate This Week</span>
           <Link href="/affiliates" className="btn btn-ghost btn-sm">
-            Lihat semua <i className="ti ti-arrow-right"></i>
+            View All <i className="ti ti-arrow-right"></i>
           </Link>
         </div>
 
@@ -133,7 +133,7 @@ export default function DashboardPage() {
           <table>
             <thead>
               <tr>
-                <th>#</th><th>Kreator</th><th>Followers</th><th>Total Views</th><th>Est. Jualan</th><th>Badge</th>
+                <th>#</th><th>Creator</th><th>Followers</th><th>Total Views</th><th>Est. Sales</th><th>Badge</th>
               </tr>
             </thead>
             <tbody>

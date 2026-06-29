@@ -27,12 +27,12 @@ const trendingProducts = [
 ]
 
 const patternInsights = [
-  { pattern: "Video < 60 saat dapat 40% lebih retention", confidence: "92%", source: "Analisis 1,284 video" },
+  { pattern: "Video < 60 saat dapat 40% lebih retention", confidence: "92%", source: "Analysis of 1,284 videos" },
   { pattern: "Hook visual dalam 0-2 saat = 3x lebih viral", confidence: "88%", source: "A/B test 500 video" },
-  { pattern: "Produk ditunjukkan < 5 saat = 2.5x lebih conversion", confidence: "85%", source: "Analisis 890 video" },
-  { pattern: "Sound trending = 60% lebih reach organik", confidence: "91%", source: "Data TikTok API" },
-  { pattern: "CTA dengan urgency = 45% lebih click-through", confidence: "83%", source: "Analisis 2,100 video" },
-  { pattern: "Before/after = 3x lebih share berbanding video biasa", confidence: "87%", source: "Analisis 1,500 video" },
+  { pattern: "Produk ditunjukkan < 5 saat = 2.5x lebih conversion", confidence: "85%", source: "Analysis of 890 videos" },
+  { pattern: "Sound trending = 60% lebih reach organik", confidence: "91%", source: "TikTok API" },
+  { pattern: "CTA dengan urgency = 45% lebih click-through", confidence: "83%", source: "Analysis of 2,100 videos" },
+  { pattern: "Before/after = 3x lebih share berbanding video biasa", confidence: "87%", source: "Analysis of 1,500 videos" },
 ]
 
 export default function TrendingPage() {
@@ -47,7 +47,7 @@ export default function TrendingPage() {
         <div style={{ display: "flex", gap: 6 }}>
           {(["today", "week", "month"] as TimeRange[]).map(r => (
             <button key={r} className={`btn btn-sm ${timeRange === r ? "btn-primary" : "btn-ghost"}`} onClick={() => setTimeRange(r)}>
-              {r === "today" ? "Hari Ini" : r === "week" ? "Minggu Ini" : "Bulan Ini"}
+              {r === "today" ? "Today" : r === "week" ? "This Week" : "This Month"}
             </button>
           ))}
         </div>

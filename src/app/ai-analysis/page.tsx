@@ -4,14 +4,14 @@ import { useState } from "react"
 import { predefinedAnalyses, generateMockAnalysis, type Analysis } from "@/data/analysis"
 
 const scrapeSteps = [
-  "Mengakses URL TikTok dan memuatkan halaman video...",
-  "Mengekstrak metadata video (views, likes, comments)...",
-  "Menjalankan ASR untuk transcript audio...",
-  "Menganalisis 3 saat pertama (hook detection)...",
-  "Mengesan pattern visual dan editing style...",
-  "Membaca sentiment komen (NLP)...",
-  "Membandingkan dengan video viral dalam niche sama...",
-  "Menjana AI Coaching Report...",
+  "Accessing TikTok URL and loading video page...",
+  "Extracting video metadata (views, likes, comments)...",
+  "Running ASR for audio transcript...",
+  "Analyzing first 3 seconds (hook detection)...",
+  "Detecting visual patterns and editing style...",
+  "Reading comment sentiment (NLP)...",
+  "Comparing with viral videos in same niche...",
+  "Generating AI Coaching Report...",
 ]
 
 export default function AIAnalysisPage() {
@@ -29,7 +29,7 @@ export default function AIAnalysisPage() {
     const trimmed = url.trim()
     if (!trimmed) return
     if (!trimmed.includes("tiktok.com")) {
-      alert("Sila masukkan URL TikTok yang valid")
+      alert("Please enter a valid TikTok URL")
       return
     }
     setLoading(true)
@@ -44,7 +44,7 @@ export default function AIAnalysisPage() {
     }
 
     await new Promise(r => setTimeout(r, 400))
-    setScrapeResult("✓ Scrape complete: video, audio, transcript, metadata, comments, dan competitor data berjaya diekstrak")
+    setScrapeResult("✓ Scrape complete: video, audio, transcript, metadata, comments, and competitor data successfully extracted")
     setCustomAnalysis(generateMockAnalysis(trimmed))
     setLoading(false)
     setScrapingProgress(-1)
@@ -92,7 +92,7 @@ export default function AIAnalysisPage() {
           </button>
         </div>
         <div style={{ marginTop: 8, fontSize: 11, color: "var(--text-muted)" }}>
-          <i className="ti ti-info-circle"></i> Masukkan mana-mana URL TikTok untuk dapatkan AI coaching report lengkap
+          <i className="ti ti-info-circle"></i> Enter any TikTok URL to get a complete AI coaching report
         </div>
       </div>
 
@@ -246,7 +246,7 @@ export default function AIAnalysisPage() {
             </div>
             <div style={{ padding: "0 16px 8px" }}>
               <div style={{ marginBottom: 8, padding: "8px 12px", background: "var(--surface-0)", borderRadius: "var(--radius)", fontSize: 11, color: "var(--text-muted)" }}>
-                <i className="ti ti-info-circle"></i> Transcript dijana secara automatik menggunakan ASR. Ketepatan ~87%.
+                <i className="ti ti-info-circle"></i> Transcript generated automatically via ASR. Accuracy ~87%.
               </div>
               {(showAllTranscript ? d.transcriptFull : d.transcriptFull.slice(0, 4)).map((t, i) => (
                 <div key={i} className="video-row" style={{ alignItems: "flex-start" }}>
@@ -288,7 +288,7 @@ export default function AIAnalysisPage() {
             </div>
             <div className="card">
               <div className="card-title"><i className="ti ti-currency-ringgit"></i> Sales Estimation</div>
-              <div className="data-row"><span className="data-label">Est. unit terjual</span><span className="data-val">{d.estimatedSales}</span></div>
+              <div className="data-row"><span className="data-label">Est. units sold</span><span className="data-val">{d.estimatedSales}</span></div>
               <div className="data-row"><span className="data-label">Est. revenue</span><span className="data-val" style={{ color: "var(--text-success)" }}>{d.estimatedRevenue}</span></div>
               <div className="data-row"><span className="data-label">Competition gap</span><span className="data-val" style={{ color: "var(--text-accent)" }}>{d.competitionGap}</span></div>
             </div>

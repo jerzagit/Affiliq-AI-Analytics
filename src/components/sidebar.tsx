@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation"
 import { useState } from "react"
 
 const navItems = [
-  { section: "Utama" },
+  { section: "Main" },
   { label: "Dashboard", icon: "ti-layout-dashboard", href: "/" },
   { label: "Live Analytics", icon: "ti-player-play", href: "/live" },
   { label: "Trending", icon: "ti-trending-up", href: "/trending" },
-  { section: "Analitik" },
+  { section: "Analytics" },
   { label: "AI Video Coach", icon: "ti-robot", href: "/ai-analysis" },
   { label: "Produk Viral", icon: "ti-box", href: "/products" },
   { label: "Affiliate", icon: "ti-users", href: "/affiliates" },
@@ -55,7 +55,7 @@ export default function Sidebar() {
           </div>
         </div>
 
-        <nav className="nav" aria-label="Navigasi utama">
+        <nav className="nav" aria-label="Main navigation">
           {navItems.map((item, i) =>
             "section" in item ? (
               <div key={i} className="nav-section">{item.section}</div>
@@ -74,13 +74,13 @@ export default function Sidebar() {
           )}
           <div className="nav-item" style={{ cursor: "pointer" }}>
             <i className="ti ti-settings" aria-hidden="true"></i>
-            <span className="nav-label">Tetapan ↗</span>
+            <span className="nav-label">Settings ↗</span>
           </div>
         </nav>
 
         <div className="sidebar-footer">
           <div className="data-row">
-            <span className="data-label" style={{ fontSize: 11 }}>Status data</span>
+            <span className="data-label" style={{ fontSize: 11 }}>Data Status</span>
             <span className="badge badge-green">
               <span className="live-dot" style={{ width: 5, height: 5, marginRight: 3 }}></span>
               Live
