@@ -37,7 +37,7 @@ export default function DashboardPage() {
         <div className="hero-welcome">
           <div className="hero-welcome-content">
             <h2>{greeting || "Selamat Datang"}, Pengguna</h2>
-            <p>AffiliQ — TikTok Shop Intelligence Platform. Pantau produk viral, analisis video, dan track afiliasi dalam masa nyata.</p>
+            <p>AffiliQ — TikTok Shop Intelligence Platform. Pantau produk viral, analisis video, dan track affiliate dalam masa nyata.</p>
             <div className="hero-stats-row">
               <div className="hero-stat-item">
                 <span className="h-num">{liveProducts.toLocaleString()}</span>
@@ -53,7 +53,7 @@ export default function DashboardPage() {
               </div>
               <div className="hero-stat-item">
                 <span className="h-num">2,341</span>
-                <span className="h-label">Afiliasi Aktif</span>
+                <span className="h-label">Affiliate Aktif</span>
               </div>
             </div>
           </div>
@@ -123,7 +123,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="section-header" style={{ marginTop: 8 }}>
-          <span className="section-title">Top Afiliasi Minggu Ini</span>
+          <span className="section-title">Top Affiliate Minggu Ini</span>
           <Link href="/affiliates" className="btn btn-ghost btn-sm">
             Lihat semua <i className="ti ti-arrow-right"></i>
           </Link>

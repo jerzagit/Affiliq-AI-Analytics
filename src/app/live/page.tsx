@@ -61,7 +61,7 @@ export default function LivePage() {
       const event: ScrapeEvent = {
         id: ++eventId.current,
         type,
-        label: type === "product" ? "Produk" : type === "affiliate" ? "Afiliasi" : "Video",
+        label: type === "product" ? "Produk" : type === "affiliate" ? "Affiliate" : "Video",
         detail: type === "product"
           ? `Data jualan: ${randBetween(100, 5000)} unit (RM${randBetween(5, 200)}K) — ${source}`
           : type === "affiliate"
@@ -158,7 +158,7 @@ export default function LivePage() {
             <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(50, 500)} hari ini</div>
           </div>
           <div className="metric-card">
-            <div className="metric-label"><i className="ti ti-users"></i> Afiliasi Aktif</div>
+            <div className="metric-label"><i className="ti ti-users"></i> Affiliate Aktif</div>
             <div className="metric-value">{activeAffiliates.toLocaleString()}</div>
             <div className="metric-delta"><i className="ti ti-arrow-up"></i> +{randBetween(1, 10)} bulan ini</div>
           </div>

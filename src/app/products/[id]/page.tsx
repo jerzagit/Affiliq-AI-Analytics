@@ -42,7 +42,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ id: s
               <div className="hero-stat-val" style={{ fontSize: 13, color: "var(--text-success)" }}>{p.gmv}</div>
             </div>
             <div className="hero-stat">
-              <div className="hero-stat-label">Top Afiliasi</div>
+              <div className="hero-stat-label">Top Affiliate</div>
               <div className="hero-stat-val" style={{ fontSize: 13, color: "var(--text-accent)" }}>{p.topAffiliate}</div>
             </div>
           </div>
@@ -63,7 +63,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ id: s
           ))}
         </div>
         <div className="card">
-          <div className="card-title"><i className="ti ti-users" aria-hidden="true"></i> Top Afiliasi Produk Ini</div>
+          <div className="card-title"><i className="ti ti-users" aria-hidden="true"></i> Top Affiliate Produk Ini</div>
           {p.topAffs.map((a, i) => {
             const aff = getAffiliateByName(a)
             return (

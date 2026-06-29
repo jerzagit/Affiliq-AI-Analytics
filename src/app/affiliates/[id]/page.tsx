@@ -10,7 +10,7 @@ export default async function AffiliateDetailPage(props: { params: Promise<{ id:
   return (
     <>
       <Link href="/affiliates" className="back-btn">
-        <i className="ti ti-arrow-left" aria-hidden="true"></i> Kembali ke afiliasi
+        <i className="ti ti-arrow-left" aria-hidden="true"></i> Kembali ke affiliate
       </Link>
 
       <div className="detail-hero">

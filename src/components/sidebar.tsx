@@ -11,7 +11,7 @@ const navItems = [
   { section: "Analitik" },
   { label: "AI Video Coach", icon: "ti-robot", href: "/ai-analysis" },
   { label: "Produk Viral", icon: "ti-box", href: "/products" },
-  { label: "Afiliasi", icon: "ti-users", href: "/affiliates" },
+  { label: "Affiliate", icon: "ti-users", href: "/affiliates" },
   { label: "Leaderboard", icon: "ti-trophy", href: "/leaderboard" },
   { section: "Data" },
   { label: "Saved", icon: "ti-bookmark", href: "/saved" },

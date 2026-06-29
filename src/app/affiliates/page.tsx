@@ -5,7 +5,7 @@ export default function AffiliatesPage() {
   return (
     <>
       <div className="section-header">
-        <span className="section-title">Senarai Afiliasi Terbaik</span>
+        <span className="section-title">Senarai Affiliate Terbaik</span>
         <span className="badge badge-accent">Malaysia</span>
       </div>
 

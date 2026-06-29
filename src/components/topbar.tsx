@@ -7,7 +7,7 @@ import ThemeToggle from "./theme-toggle"
 const titles: Record<string, string> = {
   "/": "Dashboard",
   "/products": "Produk Viral",
-  "/affiliates": "Afiliasi",
+  "/affiliates": "Affiliate",
   "/live": "Live Analytics",
   "/trending": "Trending",
   "/ai-analysis": "AI Video Coach",
