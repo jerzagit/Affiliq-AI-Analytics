@@ -1108,6 +1108,25 @@ input:focus {
   box-shadow: 0 0 20px rgba(16,185,129,0.15);
 }
 
+/* Scraper panel */
+.scraper-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.scraper-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.scraper-value {
+  font-size: 15px;
+  font-weight: 600;
+}
+
 /* Responsive - Tablet */
 @media (max-width: 1024px) {
   .metric-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1127,6 +1146,9 @@ input:focus {
   .metric-value { font-size: 22px; }
 
   .two-col { grid-template-columns: 1fr; gap: 12px; }
+
+  .scraper-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .scraper-value { font-size: 13px; }
 
   .hero-welcome { padding: 20px; }
   .hero-welcome h2 { font-size: 17px; }

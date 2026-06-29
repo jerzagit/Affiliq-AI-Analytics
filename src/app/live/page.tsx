@@ -111,27 +111,27 @@ export default function LivePage() {
           <div className="card-title" style={{ color: "var(--text-accent)" }}>
             <i className="ti ti-radar"></i> Scraper Status — Real-Time Feed
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 12 }}>
+          <div className="scraper-grid">
             <div>
-              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 2 }}>Scrape Rate</div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: "var(--text-accent)" }}>
-                <i className="ti ti-arrow-up" style={{ fontSize: 12 }}></i> {randBetween(8, 15)}/saat
+              <div className="scraper-label">Scrape Rate</div>
+              <div className="scraper-value" style={{ color: "var(--text-accent)" }}>
+                <i className="ti ti-arrow-up" style={{ fontSize: 12 }}></i> {randBetween(8, 15)}/sec
               </div>
             </div>
             <div>
-              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 2 }}>API Status</div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: "var(--text-success)" }}>
+              <div className="scraper-label">API Status</div>
+              <div className="scraper-value" style={{ color: "var(--text-success)" }}>
                 <span className="live-dot" style={{ width: 6, height: 6, marginRight: 4, verticalAlign: "middle" }}></span>
                 Operational
               </div>
             </div>
             <div>
-              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 2 }}>Source</div>
-              <div style={{ fontSize: 15, fontWeight: 600 }}>TikTok Shop MY</div>
+              <div className="scraper-label">Source</div>
+              <div className="scraper-value">TikTok Shop MY</div>
             </div>
             <div>
-              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 2 }}>Last Sync</div>
-              <div style={{ fontSize: 15, fontWeight: 600 }}>
+              <div className="scraper-label">Last Sync</div>
+              <div className="scraper-value">
                 {formatTime(new Date())}
               </div>
             </div>
