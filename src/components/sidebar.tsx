@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useState } from "react"
 
 const navItems = [
   { section: "Utama" },
@@ -19,6 +20,8 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/"
@@ -26,44 +29,74 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo">
-        <div className="logo-mark">
-          <div className="logo-icon"><i className="ti ti-chart-dots-3" aria-hidden="true"></i></div>
-          <div>
-            <div className="logo-text">AffiliQ</div>
-            <div className="logo-sub">TikTok Shop Intelligence</div>
+    <>
+      {/* Hamburger for mobile */}
+      <button
+        className="sidebar-hamburger"
+        onClick={() => setMobileOpen(true)}
+        aria-label="Open menu"
+      >
+        <i className="ti ti-menu-2"></i>
+      </button>
+
+      {/* Overlay for mobile */}
+      {mobileOpen && (
+        <div className="sidebar-overlay" onClick={() => setMobileOpen(false)} />
+      )}
+
+      <aside className={`sidebar ${collapsed ? "collapsed" : ""} ${mobileOpen ? "mobile-open" : ""}`}>
+        <div className="sidebar-logo">
+          <div className="logo-mark">
+            <div className="logo-icon"><i className="ti ti-chart-dots-3" aria-hidden="true"></i></div>
+            <div className="logo-text-wrap">
+              <div className="logo-text">AffiliQ</div>
+              <div className="logo-sub">TikTok Shop Intelligence</div>
+            </div>
           </div>
         </div>
-      </div>
-      <nav className="nav" aria-label="Navigasi utama">
-        {navItems.map((item, i) =>
-          "section" in item ? (
-            <div key={i} className="nav-section">{item.section}</div>
-          ) : (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`nav-item ${isActive(item.href) ? "active" : ""}`}
-            >
-              <i className={`ti ${item.icon}`} aria-hidden="true"></i>
-              {item.label}
-            </Link>
-          )
-        )}
-        <div className="nav-item" style={{ cursor: "pointer" }}>
-          <i className="ti ti-settings" aria-hidden="true"></i> Tetapan ↗
+
+        <nav className="nav" aria-label="Navigasi utama">
+          {navItems.map((item, i) =>
+            "section" in item ? (
+              <div key={i} className="nav-section">{item.section}</div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`nav-item ${isActive(item.href) ? "active" : ""}`}
+                onClick={() => setMobileOpen(false)}
+                title={collapsed ? item.label : undefined}
+              >
+                <i className={`ti ${item.icon}`} aria-hidden="true"></i>
+                <span className="nav-label">{item.label}</span>
+              </Link>
+            )
+          )}
+          <div className="nav-item" style={{ cursor: "pointer" }}>
+            <i className="ti ti-settings" aria-hidden="true"></i>
+            <span className="nav-label">Tetapan ↗</span>
+          </div>
+        </nav>
+
+        <div className="sidebar-footer">
+          <div className="data-row">
+            <span className="data-label" style={{ fontSize: 11 }}>Status data</span>
+            <span className="badge badge-green">
+              <span className="live-dot" style={{ width: 5, height: 5, marginRight: 3 }}></span>
+              Live
+            </span>
+          </div>
         </div>
-      </nav>
-      <div className="sidebar-footer">
-        <div className="data-row">
-          <span className="data-label" style={{ fontSize: 11 }}>Status data</span>
-          <span className="badge badge-green">
-            <span className="live-dot" style={{ width: 5, height: 5, marginRight: 3 }}></span>
-            Live
-          </span>
-        </div>
-      </div>
-    </aside>
+
+        {/* Toggle button */}
+        <button
+          className="sidebar-toggle"
+          onClick={() => setCollapsed(c => !c)}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          <i className={`ti ti-chevron-${collapsed ? "right" : "left"}`}></i>
+        </button>
+      </aside>
+    </>
   )
 }
