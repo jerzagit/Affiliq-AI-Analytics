@@ -92,7 +92,7 @@
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 15px;
+  font-size: clamp(14px, 1.8vw, 16px);
   font-weight: 450;
   background: var(--surface-0);
   color: var(--text-primary);
@@ -1135,54 +1135,137 @@ input:focus {
 
 /* Responsive - Mobile */
 @media (max-width: 768px) {
-  .content { padding: 16px; }
+  .content { padding: 14px; }
 
-  .topbar { padding: 0 12px 0 52px; }
+  .topbar { padding: 0 10px 0 50px; height: 48px; }
   .topbar-title { font-size: 13px; }
+  .topbar-right { gap: 8px; }
   .topbar-right form { display: none; }
+  .topbar .badge-amber { display: none; }
 
-  .metric-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .metric-card { padding: 14px; }
-  .metric-value { font-size: 22px; }
+  .metric-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .metric-card { padding: 12px; }
+  .metric-label { font-size: 10px; letter-spacing: 0.04em; }
+  .metric-value { font-size: 20px; }
+  .metric-delta { font-size: 10px; }
 
-  .two-col { grid-template-columns: 1fr; gap: 12px; }
-
-  .scraper-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .scraper-value { font-size: 13px; }
-
-  .hero-welcome { padding: 20px; }
-  .hero-welcome h2 { font-size: 17px; }
-  .hero-welcome p { font-size: 12px; }
-  .hero-welcome .hero-stats-row { gap: 12px; flex-wrap: wrap; }
-  .hero-welcome .hero-stat-item .h-num { font-size: 18px; }
-
-  .table-wrap { overflow-x: auto; }
-  table { font-size: 12.5px; }
-  th, td { padding: 8px 10px; }
-
+  .section-header { flex-wrap: wrap; gap: 6px; }
   .section-title { font-size: 14px; }
 
-  .card { padding: 14px; }
+  .two-col { grid-template-columns: 1fr; gap: 10px; }
+
+  .scraper-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .scraper-label { font-size: 10px; }
+  .scraper-value { font-size: 13px; }
+
+  .hero-welcome { padding: 18px; border-radius: 12px; }
+  .hero-welcome h2 { font-size: 16px; }
+  .hero-welcome p { font-size: 12px; margin-bottom: 10px; }
+  .hero-welcome .hero-stats-row { gap: 10px; flex-wrap: wrap; }
+  .hero-welcome .hero-stat-item .h-num { font-size: 17px; }
+  .hero-welcome .hero-stat-item .h-label { font-size: 10px; }
+
+  .table-wrap { overflow-x: auto; margin-bottom: 16px; }
+  table { font-size: 12px; }
+  th { padding: 7px 8px; font-size: 10px; }
+  td { padding: 8px 8px; }
+  .product-cell { gap: 7px; }
+  .product-name { font-size: 12px; }
+  .product-cat { font-size: 10px; }
+
+  .card { padding: 12px; border-radius: 10px; }
+  .card-title { font-size: 11px; margin-bottom: 8px; }
+
+  .btn { font-size: 12px; padding: 6px 12px; }
+  .btn-sm { font-size: 11px; padding: 4px 10px; }
+
+  .back-btn { font-size: 12px; }
+
+  .product-img { width: 28px; height: 28px; font-size: 14px; }
+  .aff-avatar { width: 26px; height: 26px; font-size: 10px; }
+
+  .badge { font-size: 10px; padding: 1px 6px; }
+
+  .score-num { font-size: 12px; }
+  .trend-up, .trend-down { font-size: 12px; }
+
+  .video-thumb { width: 36px; height: 28px; font-size: 16px; }
+  .video-title { font-size: 12px; }
+  .video-views { font-size: 11px; }
+
+  .hero-icon { width: 48px; height: 48px; font-size: 24px; }
+  .hero-name { font-size: 16px; }
+  .hero-stat-val { font-size: 15px; }
+
+  .ring-pct { font-size: 15px; }
+  .ring-sub { font-size: 9px; }
+
+  .ai-box { padding: 12px; }
+  .ai-box-body { font-size: 12px; }
+  .ai-point { font-size: 12px; }
+
+  .improvement-item { font-size: 12px; }
+
+  .data-row { font-size: 12px; padding: 5px 0; }
+
+  .tag { font-size: 10px; }
+
+  .glow-accent, .glow-success { box-shadow: none; }
+
+  .avatar { width: 26px; height: 26px; font-size: 10px; }
+
+  select { font-size: 12px; padding: 6px 10px; }
 
   .main-area > .topbar + .content {
     padding-bottom: 80px;
-  }
-
-  .badge-amber[style*="5 min ago"] {
-    display: none;
   }
 }
 
 /* Responsive - Small phones */
 @media (max-width: 480px) {
+  .content { padding: 10px; }
+
   .metric-grid { grid-template-columns: 1fr; }
+  .metric-card { padding: 10px; }
   .metric-value { font-size: 20px; }
 
-  .hero-welcome .hero-stats-row { flex-direction: column; gap: 8px; }
-  .hero-welcome .hero-stat-item { flex-direction: row; gap: 8px; align-items: center; }
-  .hero-welcome .hero-stat-item .h-num { font-size: 16px; }
-  .hero-welcome .hero-stat-item .h-label { font-size: 12px; }
+  .scraper-grid { grid-template-columns: 1fr 1fr; gap: 4px; }
+  .scraper-value { font-size: 12px; }
 
-  table { font-size: 11.5px; }
-  th, td { padding: 6px 8px; }
+  .hero-welcome { padding: 14px; }
+  .hero-welcome h2 { font-size: 15px; }
+  .hero-welcome p { font-size: 11px; }
+  .hero-welcome .hero-stats-row { flex-direction: column; gap: 6px; }
+  .hero-welcome .hero-stat-item { flex-direction: row; gap: 6px; align-items: center; }
+  .hero-welcome .hero-stat-item .h-num { font-size: 15px; }
+  .hero-welcome .hero-stat-item .h-label { font-size: 11px; }
+
+  .section-title { font-size: 13px; }
+
+  table { font-size: 11px; }
+  th { padding: 5px 6px; font-size: 9px; }
+  td { padding: 6px 6px; }
+  .product-name { font-size: 11px; }
+
+  .card { padding: 10px; }
+  .card-title { font-size: 10px; }
+
+  .btn { font-size: 11px; padding: 5px 10px; }
+  .btn-sm { font-size: 10px; padding: 3px 8px; }
+
+  .two-col { gap: 8px; }
+
+  .scraper-label { font-size: 9px; }
+  .badge { font-size: 9px; padding: 1px 5px; }
+
+  .product-img { width: 24px; height: 24px; font-size: 12px; }
+
+  .nav-item { font-size: 13px; padding: 6px 8px; }
+}
+
+/* Fluid typography for very wide screens */
+@media (min-width: 1600px) {
+  .content { padding: 32px; max-width: 1440px; margin: 0 auto; }
+  .metric-value { font-size: 28px; }
+  table { font-size: 14px; }
 }
